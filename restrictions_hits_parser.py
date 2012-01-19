@@ -16,6 +16,8 @@ parser.add_argument("-m", "--minimum-distance", dest="low", help="The lower dist
 parser.add_argument("-n", "--maximum-distance", dest="high", help="The lower distance threshold for reporting", metavar="N")
 parser.add_argument("-p", "--plot", dest="plot", help="The type of plot you want to see: 'dist' (default), distance vs frequency plot. 'cont' gives a contig positions plot", metavar="PLOT", default="dist")
 parser.add_argument("-a", "--alpha", dest="alpha", type=float, help="Set alpha value (0-1) for each marking on cont-plot. Default: 0.1", default=0.1, metavar="0.NN")
+parser.add_argument("-s", "--marker-size", dest="markersize", type=int, help="Set the size of the marker.  Default: 10", default=10, metavar="N")
+parser.add_argument("-c", "--marker-character", dest="markerchar", help=".  Default: 'r.'", default="r.", metavar="MARKER")
 
 args = parser.parse_args()
 
@@ -72,9 +74,10 @@ if args.plot == "dist":
         high = np.max(X)
     X_filter = np.where(np.logical_and(low <= X, X <= high), True, False)
     X_filtered = X[X_filter]
+    X_sorter = np.argsort(X_filtered)
     Y = np.asarray(results_dict[patterns[0]].values())
     Y_filtered = Y[X_filter]
-    pyplot.plot(X_filtered, Y_filtered, 'r.')
+    pyplot.plot(X_filtered[X_sorter], Y_filtered[X_sorter], args.markerchar, markersize=args.markersize)
 
 elif args.plot == "cont":
     if args.low != None and args.high != None:
@@ -95,7 +98,10 @@ elif args.plot == "cont":
             X = np.ones(Y.shape)* contig_i
 
             pyplot.plot(np.asarray([contig_i, contig_i]), np.asarray([0,contig_dict[contig]]), 'g-', alpha=1)
-            pyplot.plot(X, Y, 'r.', alpha=args.alpha)
+            if len(X) > 0:
+                pyplot.plot(X, Y, args.markerchar, alpha=args.alpha, markersize=args.markersize)
+                #pyplot.hexbin(X,Y, gridsize= (1, 1000), bins=1000)
+
 
         pyplot.xticks(range(1,len(x_labels)+1),x_labels)
 
