@@ -98,7 +98,10 @@ elif args.plot == "cont":
             X = np.ones(Y.shape)* contig_i
 
             pyplot.plot(np.asarray([contig_i, contig_i]), np.asarray([0,contig_dict[contig]]), 'g-', alpha=1)
-            if len(X) > 0:
+            #if len(X) > 2:
+            #    Y_sizes = np.exp(-(Y[2:] - Y[:-2])/2)*args.markersize
+            #    pyplot.plot(X[1:-1], Y[1:-1], args.markerchar, alpha=args.alpha, markersize=Y_sizes)
+            if 0 < len(X)# < 2:
                 pyplot.plot(X, Y, args.markerchar, alpha=args.alpha, markersize=args.markersize)
                 #pyplot.hexbin(X,Y, gridsize= (1, 1000), bins=1000)
 

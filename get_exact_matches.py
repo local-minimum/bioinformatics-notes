@@ -31,7 +31,7 @@ class RE_positions():
 
     def add(self, RE, seq_id, seq_pos):
         self.last = seq_pos
-        if seq_pos > 0:
+        if seq_pos >= 0:
             try:
                 self._results[RE][seq_id].append(seq_pos)
             except KeyError:
@@ -122,10 +122,10 @@ for rec in sequences:
         while re_positions.last >= 0: 
             #print dir(rec)
             re_positions.add(re, rec.id ,rec.seq.find(re, start = re_positions.last))
-            if re_positions.last > 0:
-
+            if re_positions.last >= 0:
                 re_positions.last += 1
-
+            else:
+                break
 print "@", contigs, "contigs analysed (total of", bp, "bp)."
 re_positions.print_stats()
 
