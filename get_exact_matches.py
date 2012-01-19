@@ -65,11 +65,13 @@ class RE_positions():
 
             print "@ Cut site " + str(key) + " appears in " + str(len(item)) + " contigs a total of " + str(c) +  " times"
 
+common_re = {'EcoR1': 'GAATTC', 'Cla1':'ATCGAT', 'BamH1': 'GGATCC', 'BglII': 'AGATCT', 'Dra1': 'TTTAAA', 'EcoRV':'GATATC', 'HindIII':'AAGCTT', 'Pst1':'CTGCAG','SalI': 'GTCGAC', 'SmaI':'CCCGGG', 'XmaI':'CCCGGG'}
+
 parser = ArgumentParser(description='This script will eventually give you all restriction enzyme hits')
 parser.add_argument("-i", "--input-file", dest="inputfile", help="Sequence input file to cut in.", metavar="FILE")
 parser.add_argument("-f", "--input-format", default="", dest="inputformat", help="Specify the input format (fasta, fastq), if not" + \
     " supplied it will be inferred from file-ending.", metavar="FORMAT")
-parser.add_argument("-r", "--restriction-sequence", dest="patterns", help="Comma-separated list of restriction enzyme patterns", metavar="PATTERN(S)")
+parser.add_argument("-r", "--restriction-sequence", dest="patterns", help="Comma-separated list of restriction enzyme patterns, or enzyme names " + str(common_re.keys()), metavar="PATTERN(S)")
 args = parser.parse_args()
 
 '''
@@ -79,7 +81,6 @@ if  > 0:
 '''
 
 
-common_re = {'EcoR1': 'GAATTC'}
 
 if args.inputformat == "":
 

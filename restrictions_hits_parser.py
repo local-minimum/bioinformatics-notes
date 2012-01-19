@@ -9,9 +9,11 @@ from argparse import ArgumentParser
 from matplotlib import pyplot
 import numpy as np
 
+common_re = {'EcoR1': 'GAATTC', 'Cla1':'ATCGAT', 'BamH1': 'GGATCC', 'BglII': 'AGATCT', 'Dra1': 'TTTAAA', 'EcoRV':'GATATC', 'HindIII':'AAGCTT', 'Pst1':'CTGCAG','SalI': 'GTCGAC', 'SmaI':'CCCGGG', 'XmaI':'CCCGGG'}
+
 parser = ArgumentParser(description='This script will eventually give you all restriction enzyme hits')
 parser.add_argument("-i", "--input-file", dest="inputfile", help="Sequence input file to cut in.", metavar="FILE")
-parser.add_argument("-r", "--restriction-sequence", dest="patterns", help="Comma-separated list of restriction enzyme patterns", metavar="PATTERN(S)")
+parser.add_argument("-r", "--restriction-sequence", dest="patterns", help="Comma-separated list of restriction enzyme patterns, or enzyme names " + str(common_re.keys()), metavar="PATTERN(S)")
 parser.add_argument("-m", "--minimum-distance", dest="low", help="The lower distance threshold for reporting", metavar="N")
 parser.add_argument("-n", "--maximum-distance", dest="high", help="The lower distance threshold for reporting", metavar="N")
 parser.add_argument("-p", "--plot", dest="plot", help="The type of plot you want to see: 'dist' (default), distance vs frequency plot. 'cont' gives a contig positions plot", metavar="PLOT", default="dist")
@@ -26,8 +28,6 @@ try:
 except:
     parser.print_help()
     parser.error("Couldn't locate inputfile")
-
-common_re = {'EcoR1': 'GAATTC'}
 
 try:
     patterns = args.patterns.split(",")
@@ -60,27 +60,42 @@ pyplot.clf()
 
 if args.plot == "dist":
 
-    X = np.asarray(map(int, results_dict[patterns[0]]))
+    color_pos = 0
+    color_order = "rgbcmyk"
+    if args.markerchar == None:
+        args.markerchar = color_order[color_pos] + '-'
+
+    for pattern in patterns:
+        if pattern in results_dict.keys():
+            X = np.asarray(map(int, results_dict[pattern]))
+            if color_pos > 0:
+                args.markerchar = color_order[color_pos/len(color_order)] + args.markerchar[-1]
 
 
-    if args.low != None:
-        low = int(args.low)
-    else:
-        low = np.min(X)
+            if args.low != None:
+                low = int(args.low)
+            else:
+                low = np.min(X)
 
-    if args.high != None:
-        high = int(args.high)
-    else:
-        high = np.max(X)
-    X_filter = np.where(np.logical_and(low <= X, X <= high), True, False)
-    X_filtered = X[X_filter]
-    X_sorter = np.argsort(X_filtered)
-    Y = np.asarray(results_dict[patterns[0]].values())
-    Y_filtered = Y[X_filter]
-    pyplot.plot(X_filtered[X_sorter], Y_filtered[X_sorter], args.markerchar, markersize=args.markersize)
+            if args.high != None:
+                high = int(args.high)
+            else:
+                high = np.max(X)
+
+            X_filter = np.where(np.logical_and(low <= X, X <= high), True, False)
+            X_filtered = X[X_filter]
+            X_sorter = np.argsort(X_filtered)
+            Y = np.asarray(results_dict[patterns[0]].values())
+            Y_filtered = Y[X_filter]
+
+            pyplot.plot(X_filtered[X_sorter], Y_filtered[X_sorter], args.markerchar, markersize=args.markersize)
+        else:
+            print "Pattern", pattern, "is not in parse list"
 
 elif args.plot == "cont":
     if args.low != None and args.high != None:
+        if len(patterns) > 1:
+            print "This graph only supports one pattern so far (using first)"
         low = int(args.low)
         high = int(args.high)
 
@@ -101,7 +116,7 @@ elif args.plot == "cont":
             #if len(X) > 2:
             #    Y_sizes = np.exp(-(Y[2:] - Y[:-2])/2)*args.markersize
             #    pyplot.plot(X[1:-1], Y[1:-1], args.markerchar, alpha=args.alpha, markersize=Y_sizes)
-            if 0 < len(X)# < 2:
+            if 0 < len(X):# < 2:
                 pyplot.plot(X, Y, args.markerchar, alpha=args.alpha, markersize=args.markersize)
                 #pyplot.hexbin(X,Y, gridsize= (1, 1000), bins=1000)
 
