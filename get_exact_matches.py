@@ -134,4 +134,3 @@ print re_positions.histogram()
 print re_positions.get_positions()
 print contig_lengths
 
-#!/usr/bin/python
