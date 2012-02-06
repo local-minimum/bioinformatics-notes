@@ -107,7 +107,7 @@ if __name__ == "__main__":
         "The path to a file containing sequences to extract the intial word\
         for each sequence from", dest="input_file")
 
-    parser.add_argument('-o', '--output-file', type=str, metavar="PATH", help=\
+    parser.add_argument('-o', '--output-prefix', type=str, metavar="PATH", help=\
         "The path to where the graph should be saved", dest="output_file")
 
     args = parser.parse_args()
@@ -126,8 +126,9 @@ if __name__ == "__main__":
         parser.error('All arguments are except output_file are mandatory!')
 
     print "\n*** Compiling the data:"
+    freq_dict = get_word_frequencies(args.wordlength, args.input_file)
     quality = get_sequence_score(args.wordlength, args.sequence, \
-            search_file=args.input_file)
+        freq_dict=freq_dict)
 
     tick_labels = []
     print
@@ -151,15 +152,40 @@ if __name__ == "__main__":
         ax.set_ylabel("freq")
         ax.plot(np.arange(len(quality)), np.asarray(quality))
         ax.set_xticks(np.arange(len(quality)))
-        ax.set_xticklabels(tick_labels, rotation=270)
+        ax.set_xticklabels(tick_labels, rotation=270, fontsize='xx-small')
         ax.set_xlim(0, len(quality))
 
         try:
-            plt.savefig(args.output_file)
+            plt.savefig(args.output_file +"_seq.png")
         except:
             print "***ERROR: Something went wrong saving the plot"
             sys.exit()
-        print "\n*** Graph saved as " + args.output_file
+        print "\n*** Graph (1/2) saved as " + args.output_file + "_seq.png"
+
+        sorted_keys = sorted(freq_dict)
+        tick_labels=[]
+        y_values = []
+
+        for key in sorted_keys:
+
+            tick_labels.append(key)
+            y_values.append(freq_dict[key])
+            
+        fig = plt.figure()
+        ax = fig.add_subplot(111, title="Freq distribution")
+        ax.set_ylabel("freq")
+        ax.plot(np.arange(len(y_values)), np.asarray(y_values))
+        ax.set_xticks(np.arange(len(y_values)))
+        ax.set_xticklabels(tick_labels, rotation=270, size='xx-small')
+        ax.set_xlim(0, len(y_values))
+
+        try:
+            plt.savefig(args.output_file +"_allseq.png", dpi=300)
+        except:
+            print "***ERROR: Something went wrong saving the plot"
+            sys.exit()
+
+        print "\n*** Graph (2/2) saved as " + args.output_file + "_allseq.png"
 
     print "\nRun completed (" + str(time() - t) +" seconds).\n"
 
