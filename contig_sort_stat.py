@@ -73,7 +73,7 @@ fig.savefig(graph_path+"seq_len_pie.ps", format='ps')
 
 print "\n***Calculating accumulative stuff"
 
-joint_lens = sorted(in_lens + out_lens, reversed=True)
+joint_lens = sorted(in_lens + out_lens, reverse=True)
 
 for s in (in_lens, out_lens, joint_lens):
 
