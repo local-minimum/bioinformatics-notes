@@ -9,18 +9,27 @@ import sys
 if len(sys.argv) < 3 or sys.argv[1][:2] == "-h" or sys.argv[1][:3] == "--h":
 
     print "\nBinning stats:"
-    print "\n\tUSAGE: {0} [IN GROUP FAST FILE] [OUT GROUP FASTA FILE]".format(
+    print "\n\tUSAGE: {0} [IN GROUP FAST FILE] [OUT GROUP FASTA FILE] (FORMAT)".format(
                 sys.argv[0])
+
+    print "FORMAT can be supplied as a string to look for other type of format"
 
     sys.exit()
 
+
+FILE_FORMAT = "fastq"
+
+if len(sys.argv) > 3:
+
+    FILE_FORMAT = sys.argv[3].lower()
+    
 print "\n***STARTING stats extraction"
 
 print "\n***PARSING in group file"
 
 in_lens = list()
 
-for seq_record in SeqIO.parse(sys.argv[1], 'fasta'):
+for seq_record in SeqIO.parse(sys.argv[1], FILE_FORMAT):
 
     in_lens.append(len(seq_record))
 
@@ -30,7 +39,7 @@ print "\n***PARSING out group file"
 
 out_lens = list()
 
-for seq_record in SeqIO.parse(sys.argv[2], 'fasta'):
+for seq_record in SeqIO.parse(sys.argv[2], FILE_FORMAT):
 
     out_lens.append(len(seq_record))
 
@@ -47,7 +56,7 @@ ax = fig.gca()
 ax.set_title("Contig Count Distribution")
 sum_in = len(in_lens)
 sum_out = len(out_lens)
-fracs = np.array(sum_in, sum_out) / float(sum_in + sum_out) * 100
+fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
 ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
 fig.savefig(graph_path+"count_pie.ps", format='ps')
@@ -57,7 +66,7 @@ ax = fig.gca()
 ax.set_title("Sequence Length Distribution")
 sum_in = sum(in_lens)
 sum_out = sum(out_lens)
-fracs = np.array(sum_in, sum_out) / float(sum_in + sum_out) * 100
+fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
 ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
 fig.savefig(graph_path+"seq_len_pie.ps", format='ps')
@@ -66,7 +75,7 @@ print "\n***Calculating accumulative stuff"
 
 joint_lens = sorted(in_lens + out_lens, reversed=True)
 
-for s in (in_len, out_lens, joint_lens):
+for s in (in_lens, out_lens, joint_lens):
 
     for i in xrange(1,len(s)):
 
@@ -75,7 +84,7 @@ for s in (in_len, out_lens, joint_lens):
 
 print "\n***Extening for equal length"
 
-max_l = max(map(len, (in_len, out_lens, joint_lens)))
+max_l = max(map(len, (in_lens, out_lens, joint_lens)))
 
 for s in (in_len, out_lens, joint_lens):
 

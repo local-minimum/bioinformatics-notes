@@ -70,15 +70,23 @@ def test_dupe_keys(set_A, set_B):
 if len(sys.argv) < 4 or sys.argv[1][:2] == "-h" or sys.argv[1][:3] == "--h":
 
     print "\nSimple binning algorithm for contigs"
-    print "\n\tUSAGE: {0} [IN GROUP] [OUT GROUP] [FASTA FILE]".format(sys.argv[0])
+    print "\n\tUSAGE: {0} [IN GROUP] [OUT GROUP] [FASTA FILE] {FORMAT}".format(sys.argv[0])
     print "\n\nWhere both in and out group should be NCBI compatible"
     print "BLAST outputs."
     print "\nThe FASTA-file should be the file that was blasted against both"
     print "databases."
+    print "FORMAT can be either 'fasta' or 'fastq'"
 
     sys.exit()
 
 print "\n***STARTING BINNING SCRIPT"
+
+REQ_CHR = ">"
+if len(sys.argv) > 4:
+
+    if sys.argv[4].lower() == "fastq":
+
+        REQ_CHR = "@"
 
 print "\n***CHECKING all input files"
 
@@ -140,7 +148,7 @@ print "\n***BINNING contigs into output files"
 
 for line in fs:
 
-    if line[0] == ">":
+    if line[0] == REQ_CHR:
 
         if len(req) > 0:
 
