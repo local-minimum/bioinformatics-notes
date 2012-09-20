@@ -143,7 +143,7 @@ req = list()
 
 check_safe_name = False
 uniquefier = 0
-base_path = sys.argv[3].split(os.sep)[-1]
+base_path = sys.argv[3].split(os.sep)[-1] + "."
 
 while check_safe_name == False:
 
@@ -172,11 +172,12 @@ while check_safe_name == False:
 
 try:
 
-    write_file = {'in': fs.open(in_path,'w'), 'out': fs.open(out_path, 'w')}
+    write_file = {'in': open(in_path,'w'), 'out': open(out_path, 'w')}
 
 except:
 
     print "ERROR: Could not open output files ({0})!".format((in_path, out_path))
+    sys.exit()
 
 print "\n***BINNING contigs into output files"
 
