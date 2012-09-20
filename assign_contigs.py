@@ -85,7 +85,7 @@ def assign_contigs(set_A, set_B, alpha=0.01):
 
     print "Conflicts resolved: {0} by t-test, {1} by diff size, {2} by kindness".format(
             conflicts_t, conflicts_s, conflicts_k)
-    print "No conflict in {0}".format(no_conflict)
+    print "No conflict in {0}".format(no_conflicts)
 
     return set_A, set_B
 
