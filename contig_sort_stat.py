@@ -58,7 +58,7 @@ sum_in = len(in_lens)
 sum_out = len(out_lens)
 fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
-if not 0 in fracs:
+if not 0 in fracs and not True in np.isnan(fracs):
     ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
 
 ax = fig.add_subplot(2,2,2)
@@ -67,7 +67,7 @@ sum_in = sum(in_lens)
 sum_out = sum(out_lens)
 fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
-if not 0 in fracs:
+if not 0 in fracs and not True in np.isnan(fracs):
     ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
 
 print "\n***Calculating accumulative stuff"

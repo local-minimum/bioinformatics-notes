@@ -43,7 +43,10 @@ def assign_contigs(set_A, set_B, alpha=0.01):
 
     all_keys = uniq(set_A.keys() + set_B.keys())
     tot = float(len(all_keys))
-    conflicts = [0,0,0]
+    conflict_t = 0
+    conflict_s = 0
+    conflict_k = 0
+    no_conflicts = 0
 
     for i, k in enumerate(all_keys):
 
@@ -59,23 +62,30 @@ def assign_contigs(set_A, set_B, alpha=0.01):
             if s < alpha and out_set.mean() > in_set.mean():
 
                 del set_A[k]
-                conflicts[0] += 1
+                conflicts_t += 1
 
             elif np.isnan(s) and (out_set.mean() - in_set.mean()) \
                     / float(in_set.mean()) > 0.1:
 
                 del set_A[k]
-                conflicts[1] += 1
+                conflicts_s += 1
 
             else:
 
                 del set_B[k]
-                conflicts[2] += 1
+                conflicts_k += 1
+
+        else:
+
+            no_conflicts += 1
 
         report_progress(i, tot)
+        if i == 1:
+            print "key example '{0}'".format(k)
 
     print "Conflicts resolved: {0} by t-test, {1} by diff size, {2} by kindness".format(
-            conflicts[0], conflicts[1], conflicts[2])
+            conflicts_t, conflicts_s, conflicts_k)
+    print "No conflict in {0}".format(no_conflict)
 
     return set_A, set_B
 
@@ -193,7 +203,7 @@ while check_safe_name == False:
 
     if not check_safe_name:
 
-        uniquefier += uniquefier
+        uniquefier += 1
         print "Trying with index {0}".format(uniquefier)
 
         if uniquefier > 30:
