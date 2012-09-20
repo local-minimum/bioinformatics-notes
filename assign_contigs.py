@@ -13,11 +13,17 @@ def uniq(seq):
     return [ x for x in seq if x not in seen and not seen_add(x)]
 
 
+def report_progress(i, tot, f=300):
+
+    if i % f == 0:
+        print "{0:.1}%\r".format(i*100/tot)
+
 def get_top_3_scores(blast_records):
 
     ret_dict = {}
+    tot = len(blast_records)
 
-    for blast_record in blast_records:
+    for i, blast_record in enumerate(blast_records):
 
         l = []
         #TOP 3 hits
@@ -29,14 +35,17 @@ def get_top_3_scores(blast_records):
         if len(l) > 0:
             ret_dict[al.title] = l
 
+        report_progress(i, tot)
+
     return ret_dict
 
 
 def assign_contigs(set_A, set_B, alpha=0.01):
 
     all_keys = uniq(set_A.keys() + set_B.keys())
+    tot = len(all_keys)
 
-    for k in all_keys:
+    for i, k in enumerate(all_keys):
 
         if k in set_A and k in set_B:
 
@@ -59,6 +68,8 @@ def assign_contigs(set_A, set_B, alpha=0.01):
             else:
 
                 del set_B[k]
+
+        report_progress(i, tot)
 
     return set_A, set_B
 
@@ -133,6 +144,7 @@ print "\n***ASSIGNING contigs to either set"
 
 in_dict, out_dict = assign_contigs(in_dict, out_dict)
 
+"""
 print "\n***VERIFYING assignment"
 
 #MAKE SURE THERE ARE NO DUPLICATES
@@ -141,7 +153,7 @@ if test_dupe_keys(in_dict, out_dict):
     print "ERROR: Some keys are in both sets, this should not be"
     sys.exit()
 
-
+"""
 check_safe_name = False
 uniquefier = 0
 base_path = sys.argv[3].split(os.sep)[-1] + "."
