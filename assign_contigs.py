@@ -13,7 +13,7 @@ def uniq(seq):
     return [ x for x in seq if x not in seen and not seen_add(x)]
 
 
-def report_progress(i, tot, f=300):
+def report_progress(i, tot, f=100):
 
     if i % f == 0:
         print "{0:.1f}%\r".format(i*100/tot)
@@ -34,7 +34,8 @@ def get_top_3_scores(blast_records):
             l.append(al.hsps[0].score)
 
         if len(l) > 0:
-            ret_dict[al.title] = l
+            query = blast_record.header.query
+            ret_dict[query] = l
 
     return ret_dict
 
@@ -43,9 +44,9 @@ def assign_contigs(set_A, set_B, alpha=0.01):
 
     all_keys = uniq(set_A.keys() + set_B.keys())
     tot = float(len(all_keys))
-    conflict_t = 0
-    conflict_s = 0
-    conflict_k = 0
+    conflicts_t = 0
+    conflicts_s = 0
+    conflicts_k = 0
     no_conflicts = 0
 
     for i, k in enumerate(all_keys):
@@ -81,7 +82,7 @@ def assign_contigs(set_A, set_B, alpha=0.01):
 
         report_progress(i, tot)
         if i == 1:
-            print "key example '{0}'".format(k)
+            print "Key example '{0}'".format(k)
 
     print "Conflicts resolved: {0} by t-test, {1} by diff size, {2} by kindness".format(
             conflicts_t, conflicts_s, conflicts_k)
@@ -233,7 +234,7 @@ for line in fs:
 
             #Write previous line to where it belongs
             
-            if req[0] in out_dict:
+            if req[0][1:].strip() in out_dict:
 
                 write_file['out'].write("\n\r".join(req))
 
