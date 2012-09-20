@@ -16,7 +16,7 @@ def uniq(seq):
 def report_progress(i, tot, f=100):
 
     if i % f == 0:
-        print "{0:.1f}%\r".format(i*100/tot)
+        print "{0:.1f}%\r".format(i*100/tot),
         sys.stdout.flush()
 
 
