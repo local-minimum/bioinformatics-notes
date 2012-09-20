@@ -174,7 +174,7 @@ try:
 
 except:
 
-    print "ERROR: Could not open output files!"
+    print "ERROR: Could not open output files ({0})!".format((in_path, out_path))
 
 print "\n***BINNING contigs into output files"
 
