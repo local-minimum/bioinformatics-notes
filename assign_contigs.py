@@ -138,8 +138,33 @@ if test_dupe_keys(in_dict, out_dict):
 fs = fh[-1]
 req = list()
 
-in_path = sys.argv[3] + "in_group.fasta"
-out_path = sys.argv[3] + "out_group.fasta"
+check_safe_name = False
+uniquefier = 0
+
+while check_safe_name == False:
+
+    in_path = sys.argv[3] + "{0}.in_group.fasta".format(uniquefier)
+    out_path = sys.argv[3] + "{0}.out_group.fasta".format(uniquefier)
+
+    try:
+
+        fs = open(in_path, 'r')
+        fs.close()
+
+    except:
+
+        try:
+
+            fs = open(out_path, 'r')
+            fs.close()
+
+        except:
+
+            check_safe_name = True 
+
+    if not check_safe_name:
+
+        uniquefier += uniquefier
 
 try:
 
