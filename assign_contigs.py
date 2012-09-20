@@ -142,11 +142,12 @@ req = list()
 
 check_safe_name = False
 uniquefier = 0
+base_path = sys.argv[3].split(os.sep)[-1]
 
 while check_safe_name == False:
 
-    in_path = sys.argv[3] + "{0}.in_group.{1}".format(uniquefier, FILE_FORMAT)
-    out_path = sys.argv[3] + "{0}.out_group.{1}".format(uniquefier, FILE_FORMAT)
+    in_path = base_path + "{0}.in_group.{1}".format(uniquefier, FILE_FORMAT)
+    out_path = base_path + "{0}.out_group.{1}".format(uniquefier, FILE_FORMAT)
 
     try:
 
