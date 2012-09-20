@@ -40,7 +40,7 @@ def get_top_3_scores(blast_records):
 def assign_contigs(set_A, set_B, alpha=0.01):
 
     all_keys = uniq(set_A.keys() + set_B.keys())
-    tot = len(all_keys)
+    tot = float(len(all_keys))
 
     for i, k in enumerate(all_keys):
 
