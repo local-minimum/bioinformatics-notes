@@ -75,7 +75,7 @@ def test_dupe_keys(set_A, set_B):
 if len(sys.argv) < 4 or sys.argv[1][:2] == "-h" or sys.argv[1][:3] == "--h":
 
     print "\nSimple binning algorithm for contigs"
-    print "\n\tUSAGE: {0} [IN GROUP] [OUT GROUP] [FASTA FILE] {FORMAT}".format(sys.argv[0])
+    print "\n\tUSAGE: {0} [IN GROUP] [OUT GROUP] [FASTA FILE] (FORMAT)".format(sys.argv[0])
     print "\n\nWhere both in and out group should be NCBI compatible"
     print "BLAST outputs."
     print "\nThe FASTA-file should be the file that was blasted against both"
