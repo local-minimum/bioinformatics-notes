@@ -167,7 +167,7 @@ while check_safe_name == False:
 
     in_path = base_path + "{0}.in_group.{1}".format(uniquefier, FILE_FORMAT)
     out_path = base_path + "{0}.out_group.{1}".format(uniquefier, FILE_FORMAT)
-
+    
     try:
 
         fs = open(in_path, 'r')
@@ -187,6 +187,7 @@ while check_safe_name == False:
     if not check_safe_name:
 
         uniquefier += uniquefier
+        print "Trying with index {0}".format(uniquefier)
 
 try:
 
