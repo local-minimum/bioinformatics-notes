@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import os
 from Bio.Blast import NCBIXML
 import numpy as np
 from scipy.stats import ttest_ind
