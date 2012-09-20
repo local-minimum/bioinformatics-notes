@@ -100,7 +100,7 @@ s_data = sorted(data, key=lambda x: x[-1], reverse=True)
 
 print "\n***Making line graph"
 
-ax = fig.add_subplot(2,2,2)
+ax = fig.add_subplot(2,2,3)
 ax.set_title("Accumulative Sequence Lengths")
 
 for d in s_data:
