@@ -122,7 +122,8 @@ ax.text(0.1, 0.8, 'In group came from:', fontsize=10)
 ax.text(0.1, 0.7, sys.argv[1], fontsize=8)
 ax.text(0.1, 0.5, 'Out group came from:', fontsize=10)
 ax.text(0.1, 0.4, sys.argv[2], fontsize=8)
-ax.get_axis().set_visible(False)
+ax.get_xaxis().set_visible(False)
+ax.get_yaxis().set_visible(False)
 
 print "\n***Saving graph as {0}".format(graph_path)
 
