@@ -47,29 +47,26 @@ out_lens = sorted(out_lens, reverse=True)
 
 print "\n***Making pie graphs"
 
-graph_path = sys.argv[1] + ".figures."
+graph_path = sys.argv[1] + ".figures.ps"
 
 labels = ['In Group', 'Out Group']
 
 fig = plt.figure()
-ax = fig.gca()
+ax = fig.add_subplot(2,2,1)
 ax.set_title("Contig Count Distribution")
 sum_in = len(in_lens)
 sum_out = len(out_lens)
 fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
 ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
-fig.savefig(graph_path+"count_pie.ps", format='ps')
 
-fig = plt.figure()
-ax = fig.gca()
+ax = fig.add_subplot(2,2,2)
 ax.set_title("Sequence Length Distribution")
 sum_in = sum(in_lens)
 sum_out = sum(out_lens)
 fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
 ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
-fig.savefig(graph_path+"seq_len_pie.ps", format='ps')
 
 print "\n***Calculating accumulative stuff"
 
@@ -86,23 +83,41 @@ print "\n***Extening for equal length"
 
 max_l = max(map(len, (in_lens, out_lens, joint_lens)))
 
-for s in (in_len, out_lens, joint_lens):
+for s in (in_lens, out_lens, joint_lens):
 
     if len(s) < max_l:
 
         s += [s[-1]] * (max_l - len(s))
 
-print "\n***Making line graph"
+print "\n***Prepartin line graph"
 
 labels.append("Total")
-fig = plt.figure()
-ax = fig.gca()
+colors = ['g','r','k']
+data = [in_lens, out_lens, joint_lens]
+s_data = sorted(data, key=lambda x: x[-1], reverse=True)
+
+print "\n***Making line graph"
+
+ax = fig.add_subplot(2,2,2)
 ax.set_title("Accumulative Sequence Lengths")
-ax.plot([in_len, out_lens, joint_lens], labels=labels,
-    aa=True)
+
+for d in s_data:
+    i = [d == x for x in data].index(True)
+    ax.plot(d, label=labels[i], color=colors[i],
+        aa=True)
+    ax.fill_between(np.arange(len(d)), d, 0, facecolor=colors[i])
+
 ax.set_xticks([0, max_l])
 ax.set_xticklabels([0, 100])
 ax.set_xlabel("Percent of contigs")
 ax.set_ylabel("Accumulative Sequence Length")
-fig.savefig(graph_path+"acc_seq_len.ps", format='ps')
+
+ax = fig.add_subplot(2,2,4)
+ax.set_title('Some info:')
+ax.text(0.8, 0.1, 'In group came from:', fontsize=10)
+ax.text(0.8, 0.2, sys.argv[1], fontsize=8)
+ax.text(0.8, 0.4, 'Out group came from:', fontsize=10)
+ax.text(0.8, 0.5, sys.argv[2], fontsize=8)
+
+fig.savefig(graph_path, format='ps')
 

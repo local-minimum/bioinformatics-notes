@@ -12,7 +12,7 @@ def uniq(seq):
     return [ x for x in seq if x not in seen and not seen_add(x)]
 
 
-def get_top_3_evalues(blast_records):
+def get_top_3_scores(blast_records):
 
     ret_dict = {}
 
@@ -23,7 +23,7 @@ def get_top_3_evalues(blast_records):
         for al in blast_record.alignments[:(len(blast_record.alignments) > 3 
                 and 4 or len(blast_record.alignments))]:
 
-            l.append(al.hsps[0].expect)
+            l.append(al.hsps[0].score)
 
         if len(l) > 0:
             ret_dict[al.title] = l
@@ -31,7 +31,7 @@ def get_top_3_evalues(blast_records):
     return ret_dict
 
 
-def assign_contig(set_A, set_B, alpha=0.01):
+def assign_contigs(set_A, set_B, alpha=0.01):
 
     all_keys = uniq(set_A.keys() + set_B.keys())
 
@@ -44,7 +44,12 @@ def assign_contig(set_A, set_B, alpha=0.01):
 
             s = ttest_ind(in_set, out_set)[1]
 
-            if s < alpha and out_set.mean() < in_set.mean():
+            if s < alpha and out_set.mean() > in_set.mean():
+
+                del set_A[k]
+
+            elif np.isnan(s) and (out_set.mean() - in_set.mean()) \
+                    / in_set.mean() > 0.5:
 
                 del set_A[k]
 
@@ -108,14 +113,14 @@ print "\n***ANALYSING in group results"
 
 #PARSING FILES
 blast_records = NCBIXML.parse(fh[0])
-in_dict = get_top_3_evalues(blast_records)
+in_dict = get_top_3_scores(blast_records)
 fh[0].close()
 
 
 print "\n***ANALYSING out group results"
 
 blast_records = NCBIXML.parse(fh[1])
-out_dict = get_top_3_evalues(blast_records)
+out_dict = get_top_3_scores(blast_records)
 fh[1].close()
 
 print "\n***ASSIGNING contigs to either set"
