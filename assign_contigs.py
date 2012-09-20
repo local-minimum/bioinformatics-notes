@@ -43,6 +43,7 @@ def assign_contigs(set_A, set_B, alpha=0.01):
 
     all_keys = uniq(set_A.keys() + set_B.keys())
     tot = float(len(all_keys))
+    conflicts = [0,0,0]
 
     for i, k in enumerate(all_keys):
 
@@ -58,17 +59,23 @@ def assign_contigs(set_A, set_B, alpha=0.01):
             if s < alpha and out_set.mean() > in_set.mean():
 
                 del set_A[k]
+                conflicts[0] += 1
 
             elif np.isnan(s) and (out_set.mean() - in_set.mean()) \
-                    / in_set.mean() > 0.5:
+                    / float(in_set.mean()) > 0.1:
 
                 del set_A[k]
+                conflicts[1] += 1
 
             else:
 
                 del set_B[k]
+                conflicts[2] += 1
 
         report_progress(i, tot)
+
+    print "Conflicts resolved: {0} by t-test, {1} by diff size, {2} by kindness".format(
+            conflicts[0], conflicts[1], conflicts[2])
 
     return set_A, set_B
 
@@ -188,6 +195,11 @@ while check_safe_name == False:
 
         uniquefier += uniquefier
         print "Trying with index {0}".format(uniquefier)
+
+        if uniquefier > 30:
+
+            print "***ERROR: Failed to find safe name, unreasonably many tries"
+            sys.exit()
 
 try:
 

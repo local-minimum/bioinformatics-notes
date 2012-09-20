@@ -58,7 +58,8 @@ sum_in = len(in_lens)
 sum_out = len(out_lens)
 fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
-ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
+if not 0 in fracs:
+    ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
 
 ax = fig.add_subplot(2,2,2)
 ax.set_title("Sequence Length Distribution")
@@ -66,7 +67,8 @@ sum_in = sum(in_lens)
 sum_out = sum(out_lens)
 fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
-ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
+if not 0 in fracs:
+    ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
 
 print "\n***Calculating accumulative stuff"
 
