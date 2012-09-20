@@ -16,7 +16,7 @@ def uniq(seq):
 def report_progress(i, tot, f=300):
 
     if i % f == 0:
-        print "{0:.1}%\r".format(i*100/tot)
+        print "{0:.1f}%\r".format(i*100/tot)
 
 def get_top_3_scores(blast_records):
 
@@ -141,6 +141,9 @@ print "\n***ASSIGNING contigs to either set"
 
 in_dict, out_dict = assign_contigs(in_dict, out_dict)
 
+print "IN DICT len: {0}".format(len(in_dict.keys()))
+print "OUT DICT len: {0}".format(len(out_dict.keys()))
+
 """
 print "\n***VERIFYING assignment"
 
@@ -151,6 +154,9 @@ if test_dupe_keys(in_dict, out_dict):
     sys.exit()
 
 """
+
+print "\n***SETTING output file names"
+
 check_safe_name = False
 uniquefier = 0
 base_path = sys.argv[3].split(os.sep)[-1] + "."
@@ -212,9 +218,14 @@ for line in fs:
 
         req = list()
 
+    else:
+
+        print line[0], REQ_CHR
+
     req.append(line)
 
 #Closing files
+fh[-1].close()
 for f in write_file:
 
     write_file[f].close()
