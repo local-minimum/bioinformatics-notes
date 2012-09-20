@@ -107,7 +107,7 @@ fh = []
 for i in xrange(3):
 
     try:
-        fs = open(sys.argv[1], 'r')
+        fs = open(sys.argv[1+1], 'r')
     except:
         print "Failed to open BLAST report file '{0}'".format(sys.argv[1+i]),
         print " for {0}".format(['in group', 'out group','fasta file'][i])
@@ -203,8 +203,6 @@ for line in fs:
 
         req = list()
 
-    else:
-        print line[0]
     req.append(line)
 
 #Closing files
