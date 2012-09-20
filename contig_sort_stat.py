@@ -114,7 +114,7 @@ ax.set_xticklabels([0, 100])
 ax.set_xlabel("Percent of contigs")
 ax.set_ylabel("Accumulative Sequence Length")
 ax.set_xlim(0, max_l-1)
-ax.legend(loc='lower right', fancybox=True, cax=ax)
+ax.legend(loc='lower right', fancybox=True)
 
 ax = fig.add_subplot(2,2,4)
 ax.set_title('Some info:')
