@@ -50,6 +50,7 @@ print "\n***Making pie graphs"
 graph_path = sys.argv[1] + ".figures.ps"
 
 labels = ['In Group', 'Out Group']
+colors = ['g','r']
 
 fig = plt.figure()
 ax = fig.add_subplot(2,2,1)
@@ -59,7 +60,8 @@ sum_out = len(out_lens)
 fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
 if not 0 in fracs and not True in np.isnan(fracs):
-    ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
+    ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True,
+            colors=colors)
 
 ax = fig.add_subplot(2,2,2)
 ax.set_title("Sequence Length Distribution")
@@ -68,7 +70,8 @@ sum_out = sum(out_lens)
 fracs = np.array((sum_in, sum_out)) / float(sum_in + sum_out) * 100
 explode = (0.05, 0)
 if not 0 in fracs and not True in np.isnan(fracs):
-    ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True)
+    ax.pie(fracs, explode=explode, labels=labels, autopct="%1.1f%%", shadow=True,
+            colors=colors)
 
 print "\n***Calculating accumulative stuff"
 
@@ -118,10 +121,10 @@ ax.legend(loc='lower right', fancybox=True, prop={'size':6})
 
 ax = fig.add_subplot(2,2,4)
 ax.set_title('Some info:')
-ax.text(0.1, 0.8, 'In group came from:', fontsize=10)
-ax.text(0.1, 0.7, sys.argv[1], fontsize=8)
-ax.text(0.1, 0.5, 'Out group came from:', fontsize=10)
-ax.text(0.1, 0.4, sys.argv[2], fontsize=8)
+ax.text(0.03, 0.8, 'In group came from:', fontsize=10)
+ax.text(0.03, 0.7, sys.argv[1], fontsize=6)
+ax.text(0.03, 0.5, 'Out group came from:', fontsize=10)
+ax.text(0.03, 0.4, sys.argv[2], fontsize=6)
 ax.get_xaxis().set_visible(False)
 ax.get_yaxis().set_visible(False)
 
