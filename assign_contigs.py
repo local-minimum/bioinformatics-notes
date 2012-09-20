@@ -45,6 +45,8 @@ def assign_contigs(set_A, set_B, alpha=0.01):
 
             s = ttest_ind(in_set, out_set)[1]
 
+            #print s, alpha, np.mean(out_set), np.mean(in_set)
+
             if s < alpha and out_set.mean() > in_set.mean():
 
                 del set_A[k]
@@ -138,7 +140,6 @@ if test_dupe_keys(in_dict, out_dict):
     print "ERROR: Some keys are in both sets, this should not be"
     sys.exit()
 
-fs = fh[-1]
 req = list()
 
 check_safe_name = False
@@ -181,6 +182,7 @@ except:
 
 print "\n***BINNING contigs into output files"
 
+fs = fh[-1]
 for line in fs:
 
     if line[0] == REQ_CHR:
