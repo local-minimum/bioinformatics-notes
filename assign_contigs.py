@@ -91,6 +91,7 @@ print "\n***STARTING BINNING SCRIPT"
 
 REQ_CHR = ">"
 FILE_FORMAT = 'fasta'
+
 if len(sys.argv) > 4:
 
     if sys.argv[4].lower() == "fastq":
@@ -109,7 +110,7 @@ for i in xrange(3):
         fs = open(sys.argv[1], 'r')
     except:
         print "Failed to open BLAST report file '{0}'".format(sys.argv[1+i]),
-        print " for {0} group".format(['in', 'out'][i])
+        print " for {0}".format(['in group', 'out group','fasta file'][i])
         sys.exit()
 
     fh.append(fs)
@@ -140,7 +141,6 @@ if test_dupe_keys(in_dict, out_dict):
     print "ERROR: Some keys are in both sets, this should not be"
     sys.exit()
 
-req = list()
 
 check_safe_name = False
 uniquefier = 0
@@ -183,6 +183,8 @@ except:
 print "\n***BINNING contigs into output files"
 
 fs = fh[-1]
+req = list()
+
 for line in fs:
 
     if line[0] == REQ_CHR:
@@ -197,10 +199,12 @@ for line in fs:
 
             else:
 
-                write_filt['in'].write("\n\r".join(req))
+                write_file['in'].write("\n\r".join(req))
 
         req = list()
 
+    else:
+        print line[0]
     req.append(line)
 
 #Closing files
