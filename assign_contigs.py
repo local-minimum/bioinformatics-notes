@@ -17,6 +17,8 @@ def report_progress(i, tot, f=300):
 
     if i % f == 0:
         print "{0:.1f}%\r".format(i*100/tot)
+        sys.stdout.flush()
+
 
 def get_top_3_scores(blast_records):
 
@@ -115,7 +117,7 @@ fh = []
 for i in xrange(3):
 
     try:
-        fs = open(sys.argv[1+1], 'r')
+        fs = open(sys.argv[i+1], 'r')
     except:
         print "Failed to open BLAST report file '{0}'".format(sys.argv[1+i]),
         print " for {0}".format(['in group', 'out group','fasta file'][i])
@@ -217,10 +219,6 @@ for line in fs:
                 write_file['in'].write("\n\r".join(req))
 
         req = list()
-
-    else:
-
-        print line[0], REQ_CHR
 
     req.append(line)
 
