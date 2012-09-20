@@ -21,7 +21,6 @@ def report_progress(i, tot, f=300):
 def get_top_3_scores(blast_records):
 
     ret_dict = {}
-    tot = len(blast_records)
 
     for i, blast_record in enumerate(blast_records):
 
@@ -34,8 +33,6 @@ def get_top_3_scores(blast_records):
 
         if len(l) > 0:
             ret_dict[al.title] = l
-
-        report_progress(i, tot)
 
     return ret_dict
 
