@@ -9,10 +9,10 @@ import sys
 if len(sys.argv) < 3 or sys.argv[1][:2] == "-h" or sys.argv[1][:3] == "--h":
 
     print "\nBinning stats:"
-    print "\n\tUSAGE: {0} [IN GROUP FAST FILE] [OUT GROUP FASTA FILE] (FORMAT)".format(
+    print "\n\tUSAGE: {0} [IN GROUP FASTA FILE] [OUT GROUP FASTA FILE] (FORMAT)".format(
                 sys.argv[0])
 
-    print "FORMAT can be supplied as a string to look for other type of format"
+    print "FORMAT can be supplied as a string to look for other type of format (def: fastq)"
 
     sys.exit()
 
@@ -120,6 +120,8 @@ ax.text(0.8, 0.1, 'In group came from:', fontsize=10)
 ax.text(0.8, 0.2, sys.argv[1], fontsize=8)
 ax.text(0.8, 0.4, 'Out group came from:', fontsize=10)
 ax.text(0.8, 0.5, sys.argv[2], fontsize=8)
+
+print "\n***Saving graph as {0}".format(graph_path)
 
 fig.savefig(graph_path, format='ps')
 
