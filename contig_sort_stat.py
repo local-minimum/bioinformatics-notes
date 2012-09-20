@@ -107,10 +107,12 @@ for d in s_data:
         aa=True)
     ax.fill_between(np.arange(len(d)), d, 0, facecolor=colors[i])
 
-ax.set_xticks([0, max_l])
+ax.set_xticks([0, max_l-1])
 ax.set_xticklabels([0, 100])
 ax.set_xlabel("Percent of contigs")
 ax.set_ylabel("Accumulative Sequence Length")
+ax.set_xlim(0, max_l-1)
+ax.legend(loc='lower right', fancybox=True, cax=ax)
 
 ax = fig.add_subplot(2,2,4)
 ax.set_title('Some info:')
