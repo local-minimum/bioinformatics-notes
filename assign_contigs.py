@@ -80,18 +80,20 @@ if len(sys.argv) < 4 or sys.argv[1][:2] == "-h" or sys.argv[1][:3] == "--h":
     print "BLAST outputs."
     print "\nThe FASTA-file should be the file that was blasted against both"
     print "databases."
-    print "FORMAT can be either 'fasta' or 'fastq'"
+    print "FORMAT can be either 'fasta' or 'fastq' (def: 'fasta')"
 
     sys.exit()
 
 print "\n***STARTING BINNING SCRIPT"
 
 REQ_CHR = ">"
+FILE_FORMAT = 'fasta'
 if len(sys.argv) > 4:
 
     if sys.argv[4].lower() == "fastq":
 
         REQ_CHR = "@"
+        FILE_FORMAT = 'fastq'
 
 print "\n***CHECKING all input files"
 
@@ -143,8 +145,8 @@ uniquefier = 0
 
 while check_safe_name == False:
 
-    in_path = sys.argv[3] + "{0}.in_group.fasta".format(uniquefier)
-    out_path = sys.argv[3] + "{0}.out_group.fasta".format(uniquefier)
+    in_path = sys.argv[3] + "{0}.in_group.{1}".format(uniquefier, FILE_FORMAT)
+    out_path = sys.argv[3] + "{0}.out_group.{1}".format(uniquefier, FILE_FORMAT)
 
     try:
 
