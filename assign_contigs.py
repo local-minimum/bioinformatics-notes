@@ -34,8 +34,7 @@ def get_top_3_scores(blast_records):
             l.append(al.hsps[0].score)
 
         if len(l) > 0:
-            query = blast_record.header.query
-            ret_dict[query] = l
+            ret_dict[blast_records.query] = l
 
     return ret_dict
 
