@@ -13,6 +13,7 @@ if len(sys.argv) < 3 or sys.argv[1][:2] == "-h" or sys.argv[1][:3] == "--h":
                 sys.argv[0])
 
     print "FORMAT can be supplied as a string to look for other type of format (def: fastq)"
+    print "\nNOTE that this program requires X or similar functionality!"
 
     sys.exit()
 
