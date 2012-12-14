@@ -112,6 +112,7 @@ vals = np.sqrt(vals.prod(1))
 
 #Save per contig value
 fh = open('{0}_patchy.csv'.format(sys.argv[1]), 'w')
+
 for l, v in zip(names, vals):
     fh.write("{0}\t{1}\n\r".format(l, v))
 
