@@ -18,8 +18,8 @@ How?
 ====
 
 * Place content in reasonable directory structure, and give all files and directories informative names.
-* Add *README.md* files as often as possible.
+* Add _README.md_ files as often as possible.
 * If you add code-snipplets, try to have sufficient documentation and give variables and parameters sensible names.
-* *Commit* one change at a time (If you are about to use the word "and" in your commit message, try to split the commit into several smaller commits.
+* _Commit_ one change at a time (If you are about to use the word "and" in your commit message, try to split the commit into several smaller commits.
 * Write informative commit messages.
 
