@@ -1,0 +1,24 @@
+#!/bin/bash
+
+MINPARAMS=1
+
+if [ $# -lt "$MINPARAMS" ] || grep -q -E -e'^(-h|--help)$' <<<$1 
+then
+  echo "Short hand for recursive search of non-binary files using pwd"
+  echo "as starting point by default."
+  echo "(Performing: 'grep -I -r -n -e\"SEARCHPATTERN\" PATH)'"
+  echo
+  echo "This script needs at least $MINPARAMS command-line arguments!"
+  echo
+  echo "USAGE: $0 SEARCHPATTERN [ROOT-LOCATION]"
+  exit 1
+fi  
+
+if [ $# -lt "2" ]
+then
+	p="."
+else
+	p="$2"
+fi
+
+grep -I -r -n -e"$1" "$p"
