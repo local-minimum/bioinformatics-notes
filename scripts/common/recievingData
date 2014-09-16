@@ -1,0 +1,41 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]
+then
+	P="."
+else
+	P=$1
+fi
+
+if grep -q -E -e'^(-h|--help)$' <<<$P 
+then
+	echo "USAGE: recievingData [PATH]"
+	echo
+	echo "Where PATH will report usage for the logical mounted drive "
+	echo "that holds the specified path".
+
+	exit
+fi
+
+
+echo Tracking $P
+CUR="-1"
+
+while true
+do
+	PREV=$CUR	
+	CUR=$(df $P | grep -E -o -e"[0-9]+ +[0-9]+ +[0-9,]+%" | grep -o -E -e"^[0-9]+")
+	if [ -z $CUR ]
+	then
+		echo Error occured / no data about usage
+		exit
+	fi
+	if [ "$PREV" -eq "$CUR" ]
+	then
+		echo Not revieving any data
+		break
+	fi
+	
+	echo Usage: $CUR
+	sleep 1
+done
