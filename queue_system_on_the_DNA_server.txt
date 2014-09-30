@@ -1,0 +1,32 @@
+# Information about the Sun Grid Engine (SGE) queue systen installed on the DNA server, lundberglab.
+
+
+# Modifications made to /etc/bash.bashrc
+alias qstat_all='qstat -f -u "*" -q default 12-cores 12-cores_2 24-cores 16-cores'
+
+The "qstat_all" command can be used to view the state of all queues and processes from all users
+
+# Usefull commands
+
+qstat -u "*" -q <QUEUE_NAME> 		# View the state of a particular queue
+
+# Usefull commands to put in the file to execute
+
+	#!/bin/bash
+
+	#$ -cwd
+	#$ -o /dev/null
+	#$ -j y
+	#$ -S /bin/bash
+
+The shebang (#!/bin/bash) may be redundant. All SGE commands starts with "#$":
+	-cwd	Output files goew in the current workingd directory
+	-o		STDOUT is redirected to this source 
+	-j		Answer yes to all and any questions from the program(s) in the file
+	-S		Commands in the file are for bash
+
+# Submitt analysis to the queue system
+
+qsub <FILE_TO_EXECUTE>			# Non interactive analysis
+qrsh <FILE_TO_EXECUTE>			# Interactive analysis
+qstat							# Creates a fully interactive session. Run your commands as usuall after this.
