@@ -1,3 +1,6 @@
+# Author: Marin Zackrisson
+# Modified: 2014-10-15
+
 #Setting up a Proxy to work comfortably from home
 
 The idea is to have an ssh-tunnel to a machine at work, which will then be your proxy
