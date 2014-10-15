@@ -1,5 +1,5 @@
-# Author: Marin Zackrisson
-# Modified: 2014-10-15
+* Author: Marin Zackrisson
+* Modified: 2014-10-15
 
 #Setting up a Proxy to work comfortably from home
 
