@@ -39,7 +39,7 @@ univeristy. This has among other things the benefit of getting access to article
   1. **Preferences**
   2. **Advanced**
   3. The **Network** tab
-  4. Click on **Settings...** for the section "Configure how Firefor connects to the internet"
+  4. Click on **Settings...** for the section "Configure how Firefox connects to the internet"
   5. Select **Manual proxy configuration**
   6. Make sure only the **SOCKS Host** address is filled in as ```127.0.0.1``` and **Port** ```8080```
   7. Press *OK*
