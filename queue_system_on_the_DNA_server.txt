@@ -1,3 +1,6 @@
+# Author: Mats Töpel
+# Modified: 2014-10-15
+
 # Information about the Sun Grid Engine (SGE) queue systen installed on the DNA server, lundberglab.
 
 
