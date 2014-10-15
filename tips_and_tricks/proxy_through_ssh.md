@@ -21,6 +21,8 @@ univeristy. This has among other things the benefit of getting access to article
   #!/usr/bin/bash
   ssh -C2qTnN -D 8080 user@remotemachine
   ```
+  And of course, you need to fill in your ```user```-name and the address to the ```remotemachine```.
+  
   
 2. **Run the script**
 
@@ -37,7 +39,7 @@ univeristy. This has among other things the benefit of getting access to article
   1. **Preferences**
   2. **Advanced**
   3. The **Network** tab
-  4. Click on **Settings...** for the section "Configure how Firefor connects to the internet
+  4. Click on **Settings...** for the section "Configure how Firefor connects to the internet"
   5. Select **Manual proxy configuration**
   6. Make sure only the **SOCKS Host** address is filled in as ```127.0.0.1``` and **Port** ```8080```
   7. Press *OK*
@@ -48,7 +50,11 @@ univeristy. This has among other things the benefit of getting access to article
   Then place the add-on's button somewhere nice in your browser and now all you have to do is activate it to be surfing through
   work.
   
-5. **Remember to turn the proxy off**
+5. **(Optional) Test that it works**
+
+  Go to ```http://www.whatsmyip.org/``` and make sure it is the IP of your remote machine and not your local machine that is displaying.
+  
+6. **Remember to turn the proxy off**
 
   When you are done with your work-stuff, either click the **Toggle Proxy** button
   or go into the **Preferences** as in *Step 2*,
