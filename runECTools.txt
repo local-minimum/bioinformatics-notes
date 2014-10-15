@@ -1,6 +1,5 @@
 # Author: Tomass Larson
-# Modifided by: Mats Töpel
-# Date: 2014-10-15
+# Modified: 2014-10-15 (by Mats Töpel)
 
 How to run correction with ectools modified to work on dna-server at Lundberglab.
 I added the code I used to convert and filter files also.
