@@ -61,3 +61,8 @@ univeristy. This has among other things the benefit of getting access to article
   but change the proxy-settings to **No proxy**.
 
   You can now also terminate the ssh-tunnel in your terminal.
+
+## How to use it after initial setup
+
+To reuse the solution you just start by running your ```worksshtunnel``` command and then either activate the proxy via the **Toggle Proxy** button or change the settings in **Preferences**.
+Remember to turn the proxy off after work is done.
