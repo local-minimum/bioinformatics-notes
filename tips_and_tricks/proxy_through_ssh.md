@@ -1,7 +1,7 @@
-* Author: Marin Zackrisson
-* Modified: 2014-10-15
-
 #Setting up a Proxy to work comfortably from home
+
+######Author: Marin Zackrisson
+######Modified: 2014-10-15
 
 The idea is to have an ssh-tunnel to a machine at work, which will then be your proxy
 so that you to the rest of the web will apppear as if you are surfing from within the
