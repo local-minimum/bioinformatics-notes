@@ -1,0 +1,156 @@
+# Author: Tomass Larson
+# Modifided by: Mats Töpel
+# Date: 2014-10-15
+
+How to run correction with ectools modified to work on dna-server at Lundberglab.
+I added the code I used to convert and filter files also.
+
+ECTOOLS_HOME=/usr/local/ectools-0.1/
+
+1. Create Celera Unitigs from Illumina data. I used contigs from CLC for the first test with Littorina
+   
+   example: myIlluminaContigs.fasta
+
+
+2. Create a new directory to house the correction
+   
+   $> mkdir organism_correct_test1
+
+3. Make a soft link your myIlluminaContigs.fasta into the correction dir
+
+   $> cd organism_correct_test1
+   $> ln -s /path/to/myIlluminaContigs.fasta 
+
+3. The manual recommend to only correct reads greater than 1kb. So I filtered out shorter
+   reads. 
+   First took my fastq and converted it to fasta with this perl script:
+   
+
+#! /usr/bin/perl -w
+
+while (<>) {
+    if (/^@(\S+)/) {
+	print ">$1\n";
+	$_ = <>; print;
+	<>; <>;
+    }
+}
+
+put it in a file called fq2fa.pl and run it like this: fq2fa.pl fastqFile.fastq > fastqFileNowAsFasta.fasta
+
+Filter out the reads above 1kb with this code (I called the script "getSeqByLength.pl"):
+
+#!/usr/bin/perl
+#Extract sequences from fasta file based on length.
+#Input is fasta file, upper and lower sequence length.
+#Tomas Larsson, 19 September 2014
+
+use strict;
+use warnings;
+use diagnostics;
+
+#Variable declarations
+my$infilePath = $ARGV[0];   #Infile
+my$minLength = $ARGV[1];    #Minimum length of sequence to report
+my$maxLength = $ARGV[2];    #Maximum length of sequence to report
+
+my$seqID = "";
+my$seq = "";
+
+open INFILE, "$infilePath" or die "Could not open file: $! \n";
+while(<INFILE>) {
+    chomp;
+    if ($_ =~ /^>/) {
+        if (length($seq) >= $minLength && (length($seq) <= $maxLength)) {
+          # print $seqID . "\t" . length($seq) . "\n"; #print id and add length of sequence in header
+            print $seqID . "\n"; #print id without adding length
+            print $seq, "\n";
+        }
+        $seq = "";
+        $seqID = $_;
+    } else {
+        $seq = $seq . $_;
+    }
+}
+
+if (length($seq) >= $minLength && (length($seq) <= $maxLength)) {
+          # print $seqID . "\t" . length($seq) . "\n"; #print id and add length of sequence in header
+            print $seqID . "\n"; #print id without adding length
+            print $seq, "\n";
+}
+
+close INFILE;
+exit;
+
+
+Run it like this: 
+getSeqByLength.pl fastqFileNowAsFasta.fasta 1000 1000000 > myPacBioReadsOver1000bp.fasta
+
+The last number is maximum length to report so I set it way over the length of the longest PacBio read to get 
+everything between 1000bp and the longest read in the file
+
+4. Partition pacbio reads into small batches
+
+   $> python /usr/local/ectools-0.1/partition.py 20 500 myPacBioReadsOver1000bp.fasta 
+   
+   Output is a series of directories and a ReadIndex.txt which maps 
+   reads to partitions 
+
+5. Copy correction script to working dir
+   
+   $> cp /usr/local/ectools-0.1/correct.sh .
+
+6. Modify the global variables a the top of correct.sh
+for example the line: 
+CORRECT_SCRIPT=/path/to/ectools/pb_correct.py
+
+should be: 
+CORRECT_SCRIPT=/usr/local/ectools-0.1/pb_correct.py
+
+and the line:
+UNITIG_FILE=/path/to/unitigs.fa
+
+should in this example be:
+UNITIG_FILE=/path/to/myIlluminaContigs.fasta
+
+you also need to add this line in the beginning of your copied correct.sh script:
+#$ -S /bin/bash 
+I added it directly after the first line with a comment so the 
+first few lines of my correct.sh look like this:
+
+#!/bin/bash -x
+
+#Make sure SGE interpret this as a bash script
+#$ -S /bin/bash
+
+  
+7. Ensure Nucmer suite is in your PATH (it works as it is, no need to check)
+   
+   $> nucmer
+
+8. Launch Correction 
+   The correct.sh script should be run in each of
+   the partition directories. The number of files in directory should
+   be specified as the array parameter to grid engine.  This simple
+   for loop works well:
+   
+   $> for i in {0001..000N}; do cd $i; qsub -cwd -j y -t 1:${NUM_FILES_PER_PARTITION} ../correct.sh; cd ..; done
+   
+   So in case you have 100 folders with sequences and 500 files in each directory the above line would look like this:
+   for i in {0001..0100}; do cd $i; qsub -cwd -j y -t 1:500 ../correct.sh; cd ..; done
+   
+   You need to further modify it to run as an array job. Mats helped to make a queue called "12-cores" on the dna-server
+   So in order to submit to that queue the above line would look like this:
+   
+   for i in {0001..0100}; do cd $i; qsub -q 12-cores -cwd -j y -t 1:500 ../correct.sh; cd ..; done
+    
+
+9. Wait for correction to complete.  Concatenate all corrected output
+   files from all parititons into a single fa file:
+   
+   $> cat ????/*.cor.fa > myCorrectedFasta.fa
+
+
+10. Run Celera or some other overlap assembler on the output file.
+
+   
