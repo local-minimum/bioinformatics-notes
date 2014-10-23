@@ -55,3 +55,9 @@ endif
 
 " Pressing <F2> will toggle making pasting paste content as is without dealing with indentation
 set pastetoggle=<F2> 
+
+" Saving
+" ======
+
+" Gaining sudo for a file if not sufficient permissions to save it
+cmap w!! w !sudo tee % >/dev/null
