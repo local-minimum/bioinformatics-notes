@@ -29,6 +29,9 @@ nmap <leader>c :!python setup.py install --user<cr>
 "Toggle numbering on left side
 nmap <Leader>n :set nonumber!<CR>
 
+"Remove search highlighting for current search
+nmap <Leader> § :nohlsearch<CR>
+
 
 " Tabs and line widths
 " ====================
