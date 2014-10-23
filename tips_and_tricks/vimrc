@@ -1,0 +1,54 @@
+" All comments should start with \" as that is compatible with the vimrc file
+" (file is typically located at $HOME\.vimrc)
+
+" Leader settings 
+" ===============
+
+" The leader is a button that wil sort of work like <Alt> in vim. 
+
+" For swedish keyboard a good candidate is the comma
+let mapleader=","                                                                                                                                                                                                                              
+"Displayes all leader commands
+nmap <Leader>h :!pcregrep -M -i "(^\".*\n\|).*\<leader\>" ~/.vimrc<cr>
+
+"Open vimrc for editing
+nmap <silent> <leader>v :e $MYVIMRC<CR>
+
+"Reload vimrc settings
+nmap <silent> <leader>r :so $MYVIMRC<CR>
+
+"'Print'/destill tex-file including bibtex as pdf
+nmap <Leader>p :!pdflatex "%:r"; bibtex "%:r"; pdflatex "%:r"; pdflatex "%:r"<CR>
+
+"Execute as python file
+nmap <Leader>x :!python "%"<CR>
+
+"Run python setup from current directory
+nmap <leader>c :!python setup.py install --user<cr>
+
+"Toggle numbering on left side
+nmap <Leader>n :set nonumber!<CR>
+
+
+" Tabs and line widths
+" ====================
+" Several of these makes you python and collaboration friendly
+
+set nowrap
+set tabstop=4
+set backspace=indent,eol,start
+set autoindent
+set copyindent
+set shiftwidth=4
+set smarttab
+
+filetype plugin indent on
+if has('autocmd')
+    autocmd filetype python set expandtab
+endif
+
+" Copy and Paste
+" ==============
+
+" Pressing <F2> will toggle making pasting paste content as is without dealing with indentation
+set pastetoggle=<F2> 
