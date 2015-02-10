@@ -4,18 +4,22 @@ Bioinformatics Notes
 This repository is set up to host various best practices and reference notes for all things bioinformatics.
 By people at Dept. Chemistry &amp; Molecular Biology, University of Gothenburg
 
-When?
-=====
+##What?
+
+* **scripts** contains more or less pure example scripts useful for various things
+* **tutorials** contains instructions on how to perform certain tasks
+
+##When?
+
 
 If it makes more sense that a piece of information is shared and jointly edited
 
-Why?
-====
+##Why?
+
 
 Git is good and it is good to know git.
 
-How?
-====
+##How?
 
 * Place content in reasonable directory structure, and give all files and directories informative names.
 * Add _README.md_ files as often as possible.
