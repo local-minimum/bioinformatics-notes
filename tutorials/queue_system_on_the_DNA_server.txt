@@ -13,6 +13,8 @@ The "qstat_all" command can be used to view the state of all queues and processe
 
 qstat -u "*" -q <QUEUE_NAME> 		# View the state of a particular queue
 
+qsub -q <QUEUE_NAME> -pe np <NUMBER>	# Request <NUMBER> of CPU cores from queue <QUEUE_NAME>
+
 # Usefull commands to put in the file to execute
 
 	#!/bin/bash
