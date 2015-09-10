@@ -49,3 +49,13 @@ Finds all occurencies of a pattern in a fasta file
 ##start_words_in_seq.py
 
 Creates a frequency discionary of all N-length words at the beginning of sequences.
+
+##smart_diff.py
+
+A script that diffs multiple files under two roots allowing to select files of interest based on a file pattern and allowing to ignore certain modifications of the second file.
+
+Usage: `./smart_diff.py path1 path2 pattern modification`
+
+E.g. : `./smart_diff.py good_version/ bad_version/ "*.py" "idea\."`
+
+Will compare all files without regarding the expression "idea\." in the second file if it occurs in the file or in the path to the file name.
